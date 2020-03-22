@@ -38,7 +38,40 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-    // write your solution here
+    var step = 10,
+        stepMorse = 2,
+        obj = {
+            '10':'.',
+            '11':'-',
+            '**':' ',
+            '00':''
+        },
+    codeMorse = parseCode(expr, step).map(
+        function(item) {
+            return parseCode(item, stepMorse).
+            map(
+                function(item) {
+                    return obj[item];
+                }
+            ).join('');
+        }
+    );
+
+    return codeMorse.map(
+        function(item) {
+            if (item === '     ') return ' ';
+            return MORSE_TABLE[item];
+        }
+    ).join('');
+}
+
+function parseCode(str, step) {
+    var result = [],
+        index = 0;
+    while (index < str.length) {
+        result.push(str.slice(index, index += step));
+    }
+    return result;
 }
 
 module.exports = {
